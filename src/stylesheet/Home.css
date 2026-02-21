@@ -1,0 +1,121 @@
+:root {
+  --accent-color: #ffd100;
+  --white-pure: #ffffff;
+  --font-brush-vn: 'Kalam', cursive; /* Đảm bảo không lỗi dấu */
+  --font-hand-vn: 'Patrick Hand', cursive;
+  --font-base: 'Montserrat', sans-serif;
+}
+
+.hero-section {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-color: #0d1b42;
+  display: flex;
+  align-items: center;
+}
+
+.hero-bg-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+.hero-overlay-blue {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(16, 45, 142, 0.9) 0%, rgba(10, 25, 80, 0.6) 100%);
+  z-index: 2;
+}
+
+/* Bố cục đối xứng lệch */
+.hero-content-fluid {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+}
+
+.asymmetric-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 450px;
+  position: relative;
+}
+
+/* Khối bên trái - Chứa Slogan để lấp trống */
+.content-left-block {
+  align-self: flex-start;
+  text-align: left;
+  z-index: 11;
+  max-width: 500px;
+}
+
+.sub-title-label {
+  font-family: var(--font-base);
+  color: var(--accent-color) !important;
+  font-size: 0.95rem; /* Đã thu nhỏ */
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.slogan-wrapper-left {
+  margin-top: 20px;
+  border-left: 3px solid var(--accent-color);
+  padding-left: 20px;
+  margin-left: 5px;
+}
+
+.slogan-text-final {
+  font-family: var(--font-hand-vn);
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 1.6rem; /* Đã thu nhỏ */
+  line-height: 1.2;
+  margin-bottom: 0;
+}
+
+/* Khối bên phải */
+.content-right-block {
+  align-self: flex-end;
+  text-align: right;
+  margin-top: 30px; /* Đẩy chữ TÌNH NGUYỆN xuống thấp hơn */
+  z-index: 11;
+}
+
+/* Thu nhỏ cỡ chữ tiêu đề chính */
+.title-fragment {
+  font-family: var(--font-brush-vn);
+  color: var(--white-pure) !important;
+  font-size: clamp(3rem, 8vw, 5.5rem); /* Đã giảm từ 7.5rem xuống 5.5rem */
+  line-height: 1;
+  text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.5);
+  font-weight: 700;
+}
+
+/* Nhân vật trung tâm */
+.hero-main-character {
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.splash-svg-optimized {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .content-left-block, .content-right-block { align-self: center; text-align: center; }
+  .slogan-wrapper-left { border-left: none; border-top: 2px solid var(--accent-color); padding: 10px 0; margin-left: 0; }
+  .title-fragment { font-size: 2.8rem; }
+}
