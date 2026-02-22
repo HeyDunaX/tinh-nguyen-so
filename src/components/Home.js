@@ -22,7 +22,7 @@ const Home = () => {
           <div className="left-column">
             <h1 className="main-title">
               BẢN ĐỒ <br />
-              TÌNH NGUYỆN
+              THANH NIÊN
             </h1>
           </div>
 
