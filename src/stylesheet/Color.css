@@ -4,7 +4,7 @@
     --accent-bg: #ececec; /* Màu nền nhấn */
     --navbar-bg: #130e18; /* Màu nền tùy chỉnh cho Navbar */
     --navbar-text: #fff;
-    --service-bg: #050709;
+    --service-bg: #0A0F85;
     --hover-gradient: linear-gradient(135deg, #654a9a 0%, #452a70 100%);
     --home-bg: radial-gradient(circle at 60% 70%, rgba(69, 42, 112, 0.5), transparent 20%),
                 radial-gradient(circle at 95% 10%, rgba(69, 42, 112, 0.5), transparent 15%),

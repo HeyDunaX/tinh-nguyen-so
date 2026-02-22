@@ -25,11 +25,6 @@
 .hero-overlay-blue {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(15, 45, 140, 0.95),
-    rgba(10, 25, 80, 0.75)
-  );
   z-index: 2;
 }
 
@@ -43,13 +38,41 @@
   min-height: 550px;
 }
 
-/* ================= INFO BLOCK ================= */
+/* ================= TITLE ================= */
+
+.title-wrapper {
+  position: absolute;
+  top: 180px;
+  width: 100%;
+  pointer-events: none;
+}
+
+.title-top {
+  font-family: var(--font-title);
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  color: var(--white);
+  margin: 0;
+  letter-spacing: 2px;
+  text-align: left;
+}
+
+.title-bottom {
+  font-family: var(--font-title);
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  color: var(--white);
+  margin: 0;
+  letter-spacing: 2px;
+  text-align: right;
+  margin-top: 15px;
+}
+
+/* ================= INFO BLOCK (ĐÃ CHUYỂN PHẢI) ================= */
 
 .info-block {
   position: absolute;
-  top: 60px;
-  left: 0;
-  max-width: 480px;
+  top: 220px;
+  right: 0;
+  max-width: 420px;
 }
 
 .sub-title {
@@ -58,47 +81,21 @@
   font-size: 0.9rem;
   letter-spacing: 2px;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  text-align: left;
 }
 
 .slogan-block {
   border-left: 4px solid var(--accent);
-  padding-left: 18px;
+  padding-left: 15px;
 }
 
 .slogan-block p {
   font-family: var(--font-base);
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   color: rgba(255, 255, 255, 0.95);
   margin: 0;
-  line-height: 1.3;
-}
-
-/* ================= TITLE ================= */
-
-.title-wrapper {
-  position: absolute;
-  top: 150px;
-  width: 100%;
-}
-
-.title-top {
-  font-family: var(--font-title);
-  font-size: clamp(4rem, 9vw, 8rem);
-  color: var(--white);
-  margin: 0;
-  letter-spacing: 3px;
-  text-align: left;
-}
-
-.title-bottom {
-  font-family: var(--font-title);
-  font-size: clamp(4rem, 9vw, 8rem);
-  color: var(--white);
-  margin: 0;
-  letter-spacing: 3px;
-  text-align: right;
-  margin-top: 20px;
+  line-height: 1.35;
 }
 
 /* ================= CHARACTER ================= */
@@ -121,12 +118,6 @@
 /* ================= RESPONSIVE ================= */
 
 @media (max-width: 992px) {
-  .info-block {
-    position: relative;
-    text-align: center;
-    margin-bottom: 30px;
-  }
-
   .title-wrapper {
     position: relative;
     top: unset;
@@ -135,6 +126,12 @@
   .title-top,
   .title-bottom {
     text-align: center;
+  }
+
+  .info-block {
+    position: relative;
+    text-align: center;
+    margin-top: 30px;
   }
 
   .slogan-block {

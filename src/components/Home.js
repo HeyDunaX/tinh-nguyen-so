@@ -18,7 +18,13 @@ const Home = () => {
       <Container className="hero-content-fluid">
         <div className="hero-layout">
 
-          {/* LEFT INFO */}
+          {/* TITLE BLOCK */}
+          <div className="title-wrapper">
+            <h1 className="title-top">BẢN ĐỒ</h1>
+            <h1 className="title-bottom">TÌNH NGUYỆN</h1>
+          </div>
+
+          {/* INFO BLOCK (đã chuyển sang phải để cân bằng) */}
           <div className="info-block">
             <h5 className="sub-title">CÔNG TRÌNH THANH NIÊN</h5>
 
@@ -28,12 +34,6 @@ const Home = () => {
                 những bước đi nhỏ bé
               </p>
             </div>
-          </div>
-
-          {/* TITLE CENTERED BLOCK */}
-          <div className="title-wrapper">
-            <h1 className="title-top">BẢN ĐỒ</h1>
-            <h1 className="title-bottom">TÌNH NGUYỆN</h1>
           </div>
 
         </div>
