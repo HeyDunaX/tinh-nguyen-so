@@ -33,7 +33,7 @@
 .nav-link {
     position: relative;
     cursor: pointer;
-    font-family: "Sora";
+    font-family: "Dongle", sans-serif;
     padding: 20px;
     margin: 0 20px;
     float: right;
