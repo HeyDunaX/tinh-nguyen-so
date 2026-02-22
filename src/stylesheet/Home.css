@@ -53,6 +53,7 @@
   margin: 0;
   letter-spacing: 2px;
   line-height: 1;
+  text-align: left;
 }
 
 /* ================= RIGHT COLUMN (INFO) ================= */
@@ -68,11 +69,13 @@
   letter-spacing: 2px;
   font-weight: 700;
   margin-bottom: 15px;
+  text-align: left;
 }
 
 .slogan-block {
   border-left: 4px solid var(--accent);
   padding-left: 15px;
+  text-align: left;
 }
 
 .slogan-block p {
