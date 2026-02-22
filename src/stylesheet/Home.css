@@ -34,45 +34,31 @@
 }
 
 .hero-layout {
-  position: relative;
-  min-height: 550px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 500px;
 }
 
-/* ================= TITLE ================= */
+/* ================= LEFT COLUMN (TITLE) ================= */
 
-.title-wrapper {
-  position: absolute;
-  top: 180px;
-  width: 100%;
-  pointer-events: none;
+.left-column {
+  width: 50%;
 }
 
-.title-top {
+.main-title {
   font-family: var(--font-title);
-  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-size: clamp(3rem, 6vw, 5rem);
   color: var(--white);
   margin: 0;
   letter-spacing: 2px;
-  text-align: left;
+  line-height: 1;
 }
 
-.title-bottom {
-  font-family: var(--font-title);
-  font-size: clamp(2.8rem, 6vw, 5rem);
-  color: var(--white);
-  margin: 0;
-  letter-spacing: 2px;
-  text-align: right;
-  margin-top: 15px;
-}
+/* ================= RIGHT COLUMN (INFO) ================= */
 
-/* ================= INFO BLOCK (ĐÃ CHUYỂN PHẢI) ================= */
-
-.info-block {
-  position: absolute;
-  top: 220px;
-  right: 0;
-  max-width: 420px;
+.right-column {
+  width: 35%;
 }
 
 .sub-title {
@@ -82,7 +68,6 @@
   letter-spacing: 2px;
   font-weight: 700;
   margin-bottom: 15px;
-  text-align: left;
 }
 
 .slogan-block {
@@ -95,7 +80,7 @@
   font-size: 1.15rem;
   color: rgba(255, 255, 255, 0.95);
   margin: 0;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 /* ================= CHARACTER ================= */
@@ -118,20 +103,18 @@
 /* ================= RESPONSIVE ================= */
 
 @media (max-width: 992px) {
-  .title-wrapper {
-    position: relative;
-    top: unset;
-  }
-
-  .title-top,
-  .title-bottom {
+  .hero-layout {
+    flex-direction: column;
     text-align: center;
   }
 
-  .info-block {
-    position: relative;
-    text-align: center;
-    margin-top: 30px;
+  .left-column,
+  .right-column {
+    width: 100%;
+  }
+
+  .main-title {
+    font-size: 2.8rem;
   }
 
   .slogan-block {

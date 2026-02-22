@@ -18,14 +18,16 @@ const Home = () => {
       <Container className="hero-content-fluid">
         <div className="hero-layout">
 
-          {/* TITLE BLOCK */}
-          <div className="title-wrapper">
-            <h1 className="title-top">BẢN ĐỒ</h1>
-            <h1 className="title-bottom">TÌNH NGUYỆN</h1>
+          {/* LEFT COLUMN - TITLE */}
+          <div className="left-column">
+            <h1 className="main-title">
+              BẢN ĐỒ <br />
+              TÌNH NGUYỆN
+            </h1>
           </div>
 
-          {/* INFO BLOCK (đã chuyển sang phải để cân bằng) */}
-          <div className="info-block">
+          {/* RIGHT COLUMN - INFO */}
+          <div className="right-column">
             <h5 className="sub-title">CÔNG TRÌNH THANH NIÊN</h5>
 
             <div className="slogan-block">
@@ -39,6 +41,7 @@ const Home = () => {
         </div>
       </Container>
 
+      {/* CHARACTER CENTER */}
       <div className="hero-main-character">
         <img src={charSplashSVG} alt="Volunteer" />
       </div>
