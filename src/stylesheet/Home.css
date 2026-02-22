@@ -35,10 +35,8 @@
 .hero-layout {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   min-height: 500px;
-  transform: translateY(-80px); 
-  padding: 0 5%
 }
 
 /* ================= LEFT COLUMN (TITLE) ================= */
@@ -56,6 +54,7 @@
   line-height: 1;
   text-align: left;
   text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  line-height: 0.85;
 }
 
 /* ================= RIGHT COLUMN (INFO) ================= */
@@ -73,6 +72,7 @@
   font-weight: 700;
   margin-bottom: 15px;
   text-align: left;
+  line-height: 0.6;
 }
 
 .slogan-block {
@@ -86,7 +86,7 @@
   font-size: 1.8rem;
   color: rgba(255, 255, 255, 0.95);
   margin: 0;
-  line-height: 1.4;
+  line-height: 0.4;
 }
 
 /* ================= CHARACTER ================= */
