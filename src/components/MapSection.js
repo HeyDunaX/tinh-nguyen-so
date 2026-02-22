@@ -1,121 +1,98 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Badge } from 'react-bootstrap';
+import { Container, Row, Col, Button, Badge } from 'react-bootstrap';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import SlideUp from './SlideUp';
-import '../stylesheet/Work.css';
+import '../stylesheet/MapSection.css'; // Đổi tên file CSS cho đúng nghiệp vụ
 
-// Component con cho từng Card để quản lý trạng thái "Xem thêm" của description
-const PublicationCard = ({ project }) => {
-  const [isDescExpanded, setIsDescExpanded] = useState(false);
-  const DESCRIPTION_LIMIT = 150; // Số ký tự tối đa trước khi ẩn
+// Fix lỗi icon mặc định của Leaflet
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
-  const toggleDesc = () => setIsDescExpanded(!isDescExpanded);
+const MapSection = ({ userRole = 'viewer' }) => {
+  const [filter, setFilter] = useState('all');
+  const position = [10.893, 106.588]; // Tọa độ trung tâm khu vực Ấp 40, Xuân Thới Sơn
 
-  return (
-    <div className="work-item-pub">
-      <Row className="align-items-start w-100 g-0">
-        <Col xs={12} md={2} className="pub-meta mb-3 mb-md-0">
-          <div className="pub-year">{project.year}</div>
-          <div className="pub-track">{project.track}</div>
-          {project.rank && <div className="pub-rank">{project.rank}</div>}
-        </Col>
-
-        <Col xs={12} md={10} className="pub-info">
-          <h4 className="pub-title-text">{project.title}</h4>
-          <p className="pub-venue">{project.venue}</p>
-          <p className="pub-authors">{project.authors}</p>
-          
-          <p className="pub-desc">
-            {isDescExpanded || project.description.length <= DESCRIPTION_LIMIT
-              ? project.description
-              : `${project.description.substring(0, DESCRIPTION_LIMIT)}...`}
-            
-            {project.description.length > DESCRIPTION_LIMIT && (
-              <span className="desc-toggle-btn" onClick={toggleDesc}>
-                {isDescExpanded ? " Show less" : " Read more"}
-              </span>
-            )}
-          </p>
-          
-          <div className="pub-footer">
-            <a href={project.pdfLink} className="pub-pdf-btn" target="_blank" rel="noopener noreferrer">
-              PDF
-            </a>
-            {project.tags.map((tag, tIndex) => (
-              <Badge key={tIndex} pill className="pub-tag">{tag}</Badge>
-            ))}
-          </div>
-        </Col>
-      </Row>
-    </div>
-  );
-};
-
-const Work = () => {
-  const [showAllProjects, setShowAllProjects] = useState(false);
-  
-  // Bạn có thể thêm bao nhiêu dự án tùy thích vào đây
-  const projects = [
-    {
-      year: '2026',
-      track: 'MAIN TRACK',
-      rank: 'A*',
-      title: 'Anonymous',
-      venue: 'Anonymous',
-      authors: 'Anonymous',
-      description: 'Abstract to be added. This is a placeholder for a very long description to test the "Read More" functionality of each individual publication card in your academic portfolio website. When the text exceeds the character limit, it will be truncated and a toggle button will appear.',
-      tags: ['Low-resource NMT', 'Linguistic'],
-      pdfLink: '#' 
-    },
-    {
-      year: '2026',
-      track: 'Workshop',
-      rank: '',
-      title: 'Not All Data Augmentation Works: A Typology-Aware Study for Low-Resource Neural Machine Translation in Vietnamese Ethnic Minority Languages',
-      venue: 'AAAI-2026 Workshop LM4UC, Singapore',
-      authors: 'Long Nguyen, Dat T. Truong, Nhan D. Tran, Quynh Vo, Quy Tran Nguyen, Tho Quan',
-      description: 'Neural Machine Translation (NMT) for low-resource and underserved languages remains challenging due to the severe lack of parallel corpora, linguistic tools, and evaluation resources. The issue is evident in Vietnam, where the ethnolinguistic minority languages Tày (Tai–Kadai) and Bahnar (Austroasiatic) hold cultural significance but remain digitally under-represented. Data Augmentation (DA) offers a cost-effective remedy; however, most existing techniques were designed for high-resource analytic languages and are often applied heuristically without assessing their linguistic compatibility. In this work, we present the first systematic study of DA for two minority language pairs, Tày–Vietnamese and Bahnar–Vietnamese, within a three-stage language model pipeline consisting of Vietnamese-based initialization, monolingual adaptation, and supervised fine-tuning. We train two independent encoder–decoder NMT systems to isolate augmentation effects and analyze how linguistic typology shapes augmentation behavior. Our experiments show that meaning-preserving DA methods consistently improve translation adequacy and linguistic faithfulness, whereas several widely used techniques introduce semantic or structural degradation. Through quantitative evaluation and typology-aware linguistic analysis, we derive practical guidelines for selecting DA strategies in extremely low-resource and typologically diverse settings. We additionally release newly digitized high-quality bilingual corpora and trained models to facilitate future research and community-centered NLP development.',
-      tags: ['Low-resource NMT', 'Data Augmentation'],
-      pdfLink: 'https://openreview.net/forum?id=XziOk4BTfv'
-    },
-    // Thêm các card giả lập để test nút "See More Publications"
-    { year: '2025', track: 'Research', title: 'Extra Paper 1', venue: 'Conf 1', authors: 'Author A', description: 'Desc 1', tags: ['AI'], pdfLink: '#' },
-    { year: '2025', track: 'Research', title: 'Extra Paper 2', venue: 'Conf 2', authors: 'Author B', description: 'Desc 2', tags: ['ML'], pdfLink: '#' },
-    { year: '2024', track: 'Research', title: 'Extra Paper 3', venue: 'Conf 3', authors: 'Author C', description: 'Desc 3', tags: ['NLP'], pdfLink: '#' },
-    { year: '2024', track: 'Research', title: 'Extra Paper 4', venue: 'Conf 4', authors: 'Author D', description: 'Desc 4', tags: ['CV'], pdfLink: '#' },
+  // Dữ liệu mẫu để hoàn thiện UI/UX
+  const mockLocations = [
+    { id: 1, name: "Hộ bà Nguyễn Thị A", type: "poor", lat: 10.894, lng: 106.589, status: "Cần hỗ trợ gạo", phone: "090xxxxxxx" },
+    { id: 2, name: "Điểm rác phát sinh - Cầu X", type: "waste", lat: 10.892, lng: 106.587, status: "Cần xe cẩu", note: "Rác thải sinh hoạt ùn ứ" },
+    { id: 3, name: "Ông Trần Văn B (Neo đơn)", type: "elderly", lat: 10.895, lng: 106.590, status: "Sức khỏe yếu", phone: "091xxxxxxx" },
+    { id: 4, name: "Đường hư tổ 5", type: "road", lat: 10.891, lng: 106.586, status: "Sụp ổ voi", note: "Nguy hiểm khi trời mưa" },
   ];
 
-  const visibleProjects = showAllProjects ? projects : projects.slice(0, 5);
+  const categories = [
+    { id: 'all', label: 'Tất cả', color: 'secondary' },
+    { id: 'poor', label: 'Hộ nghèo', color: 'danger' },
+    { id: 'elderly', label: 'Người già neo đơn', color: 'warning' },
+    { id: 'waste', label: 'Điểm rác/Kênh rạch', color: 'primary' },
+    { id: 'road', label: 'Đường hư', color: 'dark' },
+  ];
+
+  const filteredData = filter === 'all' ? mockLocations : mockLocations.filter(item => item.type === filter);
 
   return (
-    <Container id="productions" fluid>
+    <Container id="map-section" fluid className="map-section-container">
       <SlideUp>
-        <div className="text-center mb-5">
-          <h2 className="Xwork">Selected Publications</h2>
-          <p className="text" style={{color: '#aaa'}}>Academic research and recent works</p>
+        <div className="text-center mb-4">
+          <h2 className="map-title">HỆ THỐNG BẢN ĐỒ SỐ</h2>
+          <p className="map-subtitle">Quản lý an sinh xã hội và hạ tầng địa bàn Ấp 40</p>
         </div>
 
-        <Row className="justify-content-center">
-          {visibleProjects.map((project, index) => (
-            <Col xs={12} lg={10} key={index} className="mb-4">
-              <PublicationCard project={project} />
+        {/* Thanh lọc dữ liệu - Nút to cho cô chú dễ bấm */}
+        <Row className="justify-content-center mb-4 g-2">
+          {categories.map(cat => (
+            <Col xs="auto" key={cat.id}>
+              <Button 
+                variant={filter === cat.id ? cat.color : `outline-${cat.color}`}
+                className="filter-btn fw-bold px-4 rounded-pill"
+                onClick={() => setFilter(cat.id)}
+              >
+                {cat.label}
+              </Button>
             </Col>
           ))}
         </Row>
 
-        {/* Nút Xem thêm cho danh sách bài báo */}
-        {projects.length > 5 && (
-          <div className="text-center mt-4">
-            <button 
-              className="see-more-list-btn" 
-              onClick={() => setShowAllProjects(!showAllProjects)}
-            >
-              {showAllProjects ? "Show Less" : `See More (${projects.length - 5} more publications)`}
-            </button>
-          </div>
-        )}
+        {/* Khu vực Bản đồ */}
+        <Row className="justify-content-center">
+          <Col lg={11}>
+            <div className="map-wrapper shadow-lg border">
+              <MapContainer center={position} zoom={16} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
+                <TileLayer
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  attribution='&copy; OpenStreetMap'
+                />
+                {filteredData.map(loc => (
+                  <Marker key={loc.id} position={[loc.lat, loc.lng]}>
+                    <Popup className="custom-popup">
+                      <div className="p-1">
+                        <h6 className="fw-bold text-primary mb-1">{loc.name}</h6>
+                        <Badge bg="info" className="mb-2">{categories.find(c => c.id === loc.type)?.label}</Badge>
+                        <p className="small mb-1"><strong>Trạng thái:</strong> {loc.status}</p>
+                        {loc.phone && <p className="small mb-1"><strong>SĐT:</strong> {loc.phone}</p>}
+                        {loc.note && <p className="small mb-2 text-muted italic">*{loc.note}</p>}
+                        
+                        {/* Chỉ hiện nút Cập nhật cho Trưởng ấp */}
+                        {userRole === 'truong_ap' && (
+                          <Button size="sm" variant="outline-primary" className="w-100 mt-2">Cập nhật thông tin</Button>
+                        )}
+                      </div>
+                    </Popup>
+                  </Marker>
+                ))}
+              </MapContainer>
+            </div>
+          </Col>
+        </Row>
       </SlideUp>
     </Container>
   );
-}
+};
 
-export default Work;
+export default MapSection;

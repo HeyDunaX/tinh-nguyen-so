@@ -1,0 +1,77 @@
+/* Container chính - Nền trắng theo yêu cầu */
+.map-section-container {
+    padding-top: 80px;
+    padding-bottom: 100px;
+    background-color: #ffffff !important; 
+}
+
+/* Tiêu đề section */
+.map-title {
+    color: #102d8e; /* Màu xanh Đoàn thanh niên */
+    font-size: 2.5rem;
+    font-weight: 800;
+    font-family: "Sora", sans-serif;
+    margin-bottom: 10px;
+}
+
+.map-subtitle {
+    color: #64748b;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* Nút lọc - Tối ưu kích thước cho mobile/người trung niên */
+.filter-btn {
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    font-size: 0.95rem;
+    border-width: 2px;
+}
+
+.filter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Khung chứa bản đồ */
+.map-wrapper {
+    height: 650px;
+    width: 100%;
+    border-radius: 25px;
+    overflow: hidden;
+    position: relative;
+    border: 4px solid #f1f5f9 !important;
+}
+
+/* Tinh chỉnh Popup cho dễ đọc */
+.custom-popup .leaflet-popup-content-wrapper {
+    border-radius: 12px;
+    padding: 5px;
+}
+
+.custom-popup .leaflet-popup-content {
+    margin: 10px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .map-section-container {
+        padding-top: 50px;
+        padding-bottom: 60px;
+    }
+    
+    .map-title {
+        font-size: 1.8rem;
+    }
+
+    .map-wrapper {
+        height: 450px;
+        border-radius: 15px;
+    }
+
+    .filter-btn {
+        font-size: 0.8rem;
+        padding: 8px 15px !important;
+    }
+}
