@@ -37,6 +37,8 @@
   justify-content: space-between;
   align-items: center;
   min-height: 500px;
+  transform: translateY(-40px); 
+  padding: 0 5%;
 }
 
 /* ================= LEFT COLUMN (TITLE) ================= */
@@ -86,7 +88,7 @@
   font-size: 1.8rem;
   color: rgba(255, 255, 255, 0.95);
   margin: 0;
-  line-height: 0.4;
+  line-height: 0.6;
 }
 
 /* ================= CHARACTER ================= */
