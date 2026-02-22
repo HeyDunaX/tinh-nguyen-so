@@ -2,7 +2,7 @@
   --accent: #ffd100;
   --white: #ffffff;
   --font-title: "Tilt Neon", sans-serif;
-  --font-base: "Dongle", sans-serif; /* Font này cần size lớn mới rõ */
+  --font-base: "Dongle", sans-serif;
 }
 
 .hero-section {
@@ -11,42 +11,50 @@
   overflow: hidden;
   display: flex;
   align-items: center;
-  background: #0d1b42;
 }
 
-/* ... các phần background giữ nguyên ... */
+.hero-bg-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+.hero-overlay-blue {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
 
 .hero-content-fluid {
   position: relative;
   z-index: 10;
-  width: 100%;
 }
 
 .hero-layout {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start; /* Chuyển về start để dễ kéo lên cao */
+  align-items: flex-start;
   min-height: 500px;
-  /* KÉO TOÀN BỘ CỤM CHỮ LÊN CAO */
   transform: translateY(-80px); 
-  padding: 0 5%;
+  padding: 0 5%
 }
 
 /* ================= LEFT COLUMN (TITLE) ================= */
 
 .left-column {
-  width: 55%;
+  width: 50%;
 }
 
 .main-title {
   font-family: var(--font-title);
-  font-size: clamp(3.5rem, 7vw, 6rem); /* Tăng nhẹ size tiêu đề */
+  font-size: clamp(3rem, 6vw, 5rem);
   color: var(--white);
   margin: 0;
-  letter-spacing: 1px;
-  line-height: 0.85; /* Ép sát dòng để nhìn hiện đại hơn */
+  letter-spacing: 2px;
+  line-height: 1;
   text-align: left;
-  text-transform: uppercase;
   text-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
@@ -54,34 +62,31 @@
 
 .right-column {
   width: 35%;
-  margin-top: 20px; /* Tạo độ so lệch với cột trái */
+  margin-top: 20px;
 }
 
-/* NHÓM SUB-TITLE: LÀM LỚN VÀ RÕ NÉT */
 .sub-title {
   font-family: var(--font-base);
   color: var(--accent);
-  font-size: 2.8rem; /* Tăng mạnh từ 1.5rem lên 2.8rem vì font Dongle rất mảnh */
-  line-height: 0.6;  /* Dongle có khoảng cách dòng mặc định rất lớn */
-  letter-spacing: 1px;
+  font-size: 1.8rem;
+  letter-spacing: 2px;
   font-weight: 700;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   text-align: left;
-  text-transform: uppercase;
 }
 
 .slogan-block {
   border-left: 4px solid var(--accent);
-  padding-left: 20px;
+  padding-left: 15px;
   text-align: left;
 }
 
 .slogan-block p {
   font-family: var(--font-base);
-  font-size: 2.2rem; /* Tăng size slogan để cân xứng với title */
+  font-size: 1.8rem;
   color: rgba(255, 255, 255, 0.95);
   margin: 0;
-  line-height: 0.8;
+  line-height: 1.4;
 }
 
 /* ================= CHARACTER ================= */
@@ -92,10 +97,16 @@
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  z-index: 15; /* Nằm đè lên chân chữ */
+  z-index: 15;
   pointer-events: none;
 }
 
+.hero-main-character img {
+  width: 100%;
+  height: auto;
+}
+
+/* ================= RESPONSIVE ================= */
 
 @media (max-width: 992px) {
   .hero-layout {
