@@ -7,8 +7,7 @@ import "../stylesheet/Home.css";
 const Home = () => {
   return (
     <section id="home" className="hero-section">
-      
-      {/* Background */}
+
       <div
         className="hero-bg-layer"
         style={{ backgroundImage: `url(${bgImage})` }}
@@ -17,34 +16,31 @@ const Home = () => {
       </div>
 
       <Container className="hero-content-fluid">
-        <div className="hero-text-wrapper">
+        <div className="hero-layout">
 
-          {/* Subtitle + Slogan */}
-          <div className="left-info-block">
-            <h5 className="sub-title-label">CÔNG TRÌNH THANH NIÊN</h5>
+          {/* LEFT INFO */}
+          <div className="info-block">
+            <h5 className="sub-title">CÔNG TRÌNH THANH NIÊN</h5>
 
-            <div className="slogan-wrapper-left">
-              <p className="slogan-text-final">
+            <div className="slogan-block">
+              <p>
                 Một hành trình dài bắt đầu từ <br />
                 những bước đi nhỏ bé
               </p>
             </div>
           </div>
 
-          {/* Main Titles */}
-          <h1 className="title-fragment title-left">BẢN ĐỒ</h1>
-          <h1 className="title-fragment title-right">TÌNH NGUYỆN</h1>
+          {/* TITLE CENTERED BLOCK */}
+          <div className="title-wrapper">
+            <h1 className="title-top">BẢN ĐỒ</h1>
+            <h1 className="title-bottom">TÌNH NGUYỆN</h1>
+          </div>
 
         </div>
       </Container>
 
-      {/* Nhân vật trung tâm */}
       <div className="hero-main-character">
-        <img
-          src={charSplashSVG}
-          alt="Volunteer"
-          className="splash-svg-optimized"
-        />
+        <img src={charSplashSVG} alt="Volunteer" />
       </div>
 
     </section>

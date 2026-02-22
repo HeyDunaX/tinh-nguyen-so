@@ -1,18 +1,17 @@
 :root {
-  --accent-color: #ffd100;
-  --white-pure: #ffffff;
-  --font-title: "Be Vietnam Pro", sans-serif;
+  --accent: #ffd100;
+  --white: #ffffff;
+  --font-title: "Saira Stencil One", sans-serif;
   --font-base: "Be Vietnam Pro", sans-serif;
 }
 
 .hero-section {
   position: relative;
   height: 100vh;
-  width: 100%;
   overflow: hidden;
-  background-color: #0d1b42;
   display: flex;
   align-items: center;
+  background: #0d1b42;
 }
 
 .hero-bg-layer {
@@ -28,8 +27,8 @@
   inset: 0;
   background: linear-gradient(
     135deg,
-    rgba(16, 45, 142, 0.92) 0%,
-    rgba(10, 25, 80, 0.7) 100%
+    rgba(15, 45, 140, 0.95),
+    rgba(10, 25, 80, 0.75)
   );
   z-index: 2;
 }
@@ -37,84 +36,76 @@
 .hero-content-fluid {
   position: relative;
   z-index: 10;
-  width: 100%;
 }
 
-.hero-text-wrapper {
+.hero-layout {
   position: relative;
-  min-height: 500px;
+  min-height: 550px;
 }
 
-/* ========================= */
-/* SUBTITLE + SLOGAN */
-/* ========================= */
+/* ================= INFO BLOCK ================= */
 
-.left-info-block {
+.info-block {
   position: absolute;
-  top: 40px;
+  top: 60px;
   left: 0;
-  max-width: 450px;
-  z-index: 20;
+  max-width: 480px;
 }
 
-.sub-title-label {
+.sub-title {
   font-family: var(--font-base);
-  color: var(--accent-color);
-  font-size: 0.95rem;
-  text-transform: uppercase;
+  color: var(--accent);
+  font-size: 0.9rem;
   letter-spacing: 2px;
   font-weight: 700;
   margin-bottom: 20px;
 }
 
-.slogan-wrapper-left {
-  border-left: 4px solid var(--accent-color);
+.slogan-block {
+  border-left: 4px solid var(--accent);
   padding-left: 18px;
 }
 
-.slogan-text-final {
+.slogan-block p {
   font-family: var(--font-base);
+  font-size: 1.3rem;
   color: rgba(255, 255, 255, 0.95);
-  font-size: 1.4rem;
+  margin: 0;
   line-height: 1.3;
-  margin-bottom: 0;
 }
 
-/* ========================= */
-/* MAIN TITLES */
-/* ========================= */
+/* ================= TITLE ================= */
 
-.title-fragment {
+.title-wrapper {
   position: absolute;
+  top: 150px;
+  width: 100%;
+}
+
+.title-top {
   font-family: var(--font-title);
-  color: var(--white-pure);
-  font-size: clamp(3.8rem, 8vw, 6.2rem);
-  font-weight: 900;
-  line-height: 0.9;
-  letter-spacing: 2px;
-  text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.5);
+  font-size: clamp(4rem, 9vw, 8rem);
+  color: var(--white);
+  margin: 0;
+  letter-spacing: 3px;
+  text-align: left;
 }
 
-/* BẢN ĐỒ */
-.title-left {
-  top: 120px;
-  left: 0;
-}
-
-/* TÌNH NGUYỆN */
-.title-right {
-  top: 230px;
-  right: 0;
+.title-bottom {
+  font-family: var(--font-title);
+  font-size: clamp(4rem, 9vw, 8rem);
+  color: var(--white);
+  margin: 0;
+  letter-spacing: 3px;
   text-align: right;
+  margin-top: 20px;
 }
 
-/* ========================= */
-/* CHARACTER */
-/* ========================= */
+/* ================= CHARACTER ================= */
 
 .hero-main-character {
   position: absolute;
-  bottom: -2px;
+  bottom: -5px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -122,37 +113,34 @@
   pointer-events: none;
 }
 
-.splash-svg-optimized {
+.hero-main-character img {
   width: 100%;
   height: auto;
-  display: block;
 }
 
-/* ========================= */
-/* RESPONSIVE */
-/* ========================= */
+/* ================= RESPONSIVE ================= */
 
 @media (max-width: 992px) {
-  .title-fragment {
+  .info-block {
     position: relative;
     text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .title-wrapper {
+    position: relative;
     top: unset;
-    left: unset;
-    right: unset;
-    display: block;
-    margin-bottom: 10px;
   }
 
-  .left-info-block {
-    position: relative;
+  .title-top,
+  .title-bottom {
     text-align: center;
-    margin-bottom: 20px;
   }
 
-  .slogan-wrapper-left {
+  .slogan-block {
     border-left: none;
-    border-top: 3px solid var(--accent-color);
-    padding-top: 10px;
+    border-top: 3px solid var(--accent);
     padding-left: 0;
+    padding-top: 10px;
   }
 }
