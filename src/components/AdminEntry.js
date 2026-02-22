@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import SlideUp from './SlideUp';
 import '../stylesheet/AdminEntry.css';
