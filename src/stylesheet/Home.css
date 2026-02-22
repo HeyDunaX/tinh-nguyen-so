@@ -1,9 +1,8 @@
 :root {
   --accent-color: #ffd100;
   --white-pure: #ffffff;
-  --font-brush-vn: 'Kalam', cursive; /* Đảm bảo không lỗi dấu */
-  --font-hand-vn: 'Patrick Hand', cursive;
-  --font-base: 'Montserrat', sans-serif;
+  --font-title: "Be Vietnam Pro", sans-serif;
+  --font-base: "Be Vietnam Pro", sans-serif;
 }
 
 .hero-section {
@@ -27,76 +26,92 @@
 .hero-overlay-blue {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(16, 45, 142, 0.9) 0%, rgba(10, 25, 80, 0.6) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(16, 45, 142, 0.92) 0%,
+    rgba(10, 25, 80, 0.7) 100%
+  );
   z-index: 2;
 }
 
-/* Bố cục đối xứng lệch */
 .hero-content-fluid {
   position: relative;
   z-index: 10;
   width: 100%;
 }
 
-.asymmetric-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: 450px;
+.hero-text-wrapper {
   position: relative;
+  min-height: 500px;
 }
 
-/* Khối bên trái - Chứa Slogan để lấp trống */
-.content-left-block {
-  align-self: flex-start;
-  text-align: left;
-  z-index: 11;
-  max-width: 500px;
+/* ========================= */
+/* SUBTITLE + SLOGAN */
+/* ========================= */
+
+.left-info-block {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  max-width: 450px;
+  z-index: 20;
 }
 
 .sub-title-label {
   font-family: var(--font-base);
-  color: var(--accent-color) !important;
-  font-size: 0.95rem; /* Đã thu nhỏ */
+  color: var(--accent-color);
+  font-size: 0.95rem;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: 700;
-  margin-bottom: 0;
+  margin-bottom: 20px;
 }
 
 .slogan-wrapper-left {
-  margin-top: 20px;
-  border-left: 3px solid var(--accent-color);
-  padding-left: 20px;
-  margin-left: 5px;
+  border-left: 4px solid var(--accent-color);
+  padding-left: 18px;
 }
 
 .slogan-text-final {
-  font-family: var(--font-hand-vn);
-  color: rgba(255, 255, 255, 0.9) !important;
-  font-size: 1.6rem; /* Đã thu nhỏ */
-  line-height: 1.2;
+  font-family: var(--font-base);
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 1.4rem;
+  line-height: 1.3;
   margin-bottom: 0;
 }
 
-/* Khối bên phải */
-.content-right-block {
-  align-self: flex-end;
-  text-align: right;
-  margin-top: 30px; /* Đẩy chữ TÌNH NGUYỆN xuống thấp hơn */
-  z-index: 11;
-}
+/* ========================= */
+/* MAIN TITLES */
+/* ========================= */
 
-/* Thu nhỏ cỡ chữ tiêu đề chính */
 .title-fragment {
-  font-family: var(--font-brush-vn);
-  color: var(--white-pure) !important;
-  font-size: clamp(3rem, 8vw, 5.5rem); /* Đã giảm từ 7.5rem xuống 5.5rem */
-  line-height: 1;
+  position: absolute;
+  font-family: var(--font-title);
+  color: var(--white-pure);
+  font-size: clamp(3.8rem, 8vw, 6.2rem);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: 2px;
   text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.5);
-  font-weight: 700;
 }
 
-/* Nhân vật trung tâm */
+/* BẢN ĐỒ */
+.title-left {
+  top: 120px;
+  left: 0;
+}
+
+/* TÌNH NGUYỆN */
+.title-right {
+  top: 230px;
+  right: 0;
+  text-align: right;
+}
+
+/* ========================= */
+/* CHARACTER */
+/* ========================= */
+
 .hero-main-character {
   position: absolute;
   bottom: -2px;
@@ -113,9 +128,31 @@
   display: block;
 }
 
-/* Responsive */
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
 @media (max-width: 992px) {
-  .content-left-block, .content-right-block { align-self: center; text-align: center; }
-  .slogan-wrapper-left { border-left: none; border-top: 2px solid var(--accent-color); padding: 10px 0; margin-left: 0; }
-  .title-fragment { font-size: 2.8rem; }
+  .title-fragment {
+    position: relative;
+    text-align: center;
+    top: unset;
+    left: unset;
+    right: unset;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .left-info-block {
+    position: relative;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .slogan-wrapper-left {
+    border-left: none;
+    border-top: 3px solid var(--accent-color);
+    padding-top: 10px;
+    padding-left: 0;
+  }
 }
