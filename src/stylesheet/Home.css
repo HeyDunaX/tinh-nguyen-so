@@ -35,7 +35,7 @@
 .hero-layout {
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: center;
   min-height: 500px;
   transform: translateY(-50px); 
   padding: 0;
