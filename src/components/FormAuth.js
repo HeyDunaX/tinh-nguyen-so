@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Form, Button, Card } from 'react-bootstrap';
 import { FaShieldAlt, FaArrowLeft } from 'react-icons/fa';
-import '../stylesheet/Login.css';
+import '../stylesheet/FormAuth.css';
 
 const Login = () => {
   return (
