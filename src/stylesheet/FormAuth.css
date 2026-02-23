@@ -1,0 +1,75 @@
+.login-page {
+    background-color: #f8fafc; /* Nền xám xanh cực nhẹ */
+}
+
+.login-card {
+    max-width: 460px;
+    width: 100%;
+    border-radius: 24px !important;
+}
+
+.back-to-home {
+    text-decoration: none;
+    color: #64748b;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.login-brand-wrapper {
+    margin: 30px 0;
+}
+
+.brand-shield-icon {
+    font-size: 3.5rem;
+    color: #2563eb; /* Xanh primary chuẩn an toàn mùa lũ */
+    background: rgba(37, 99, 235, 0.1);
+    padding: 18px;
+    border-radius: 16px;
+    margin-bottom: 15px;
+}
+
+.login-title {
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+
+.login-subtitle {
+    color: #94a3b8;
+    font-size: 0.95rem;
+}
+
+.login-input-large {
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 1.5px solid #e2e8f0;
+    font-size: 1rem;
+}
+
+.login-input-large:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.login-btn-main {
+    background-color: #2563eb !important;
+    border: none;
+    padding: 16px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: all 0.2s;
+}
+
+.login-btn-main:hover {
+    background-color: #1d4ed8 !important;
+    transform: translateY(-2px);
+}
+
+.login-footer-text {
+    margin-top: 30px;
+    font-size: 0.85rem;
+    color: #64748b;
+    text-align: center;
+    line-height: 1.5;
+}
