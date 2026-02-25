@@ -1,5 +1,6 @@
+// File: src/App.js
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Header from './components/header';
 import Home from './components/Home';
 import AdminEntry from './components/AdminEntry';
@@ -9,27 +10,60 @@ import FormAuth from './components/FormAuth';
 const AppContent = ({ isLoggedIn, setIsLoggedIn, userRole, setUserRole, userScope, setUserScope }) => {
   const location = useLocation();
   const isLoginPage = location.pathname === '/login';
-  const [selectedPos, setSelectedPos] = useState(null); // Tọa độ từ bản đồ
+  
+  // State quản lý tọa độ Marker được chọn trên bản đồ (Dùng chung cho AdminEntry và MapSection)
+  const [selectedPos, setSelectedPos] = useState(null);
 
   return (
     <>
-      {!isLoginPage && <Header isLoggedIn={isLoggedIn} userRole={userRole} userScope={userScope} />}
+      {/* Ẩn Header khi ở trang Login để tối ưu diện tích */}
+      {!isLoginPage && (
+        <Header 
+          isLoggedIn={isLoggedIn} 
+          userRole={userRole} 
+          userScope={userScope} 
+        />
+      )}
+
       <Routes>
-        <Route path="/" element={<main><Home /><MapSection userRole="viewer" /></main>} />
-        <Route path="/login" element={
-          <FormAuth setIsLoggedIn={setIsLoggedIn} setUserRole={setUserRole} setUserScope={setUserScope} />
+        {/* Trang chủ: Chế độ viewer, xem toàn bộ bản đồ */}
+        <Route path="/" element={
+          <main>
+            <Home />
+            <MapSection userRole="viewer" userScope={userScope} />
+          </main>
         } />
+
+        {/* Trang đăng nhập */}
+        <Route path="/login" element={
+          isLoggedIn ? <Navigate to="/" /> : (
+            <FormAuth 
+              setIsLoggedIn={setIsLoggedIn} 
+              setUserRole={setUserRole} 
+              setUserScope={setUserScope} 
+            />
+          )
+        } />
+
+        {/* Trang Quản trị: Chỉ dành cho Admin/Trưởng ấp */}
         <Route path="/admin" element={
           isLoggedIn ? (
             <main>
-              <AdminEntry userScope={userScope} selectedPos={selectedPos} />
+              {/* Form nhập liệu: Nhận tọa độ từ selectedPos */}
+              <AdminEntry 
+                userScope={userScope} 
+                selectedPos={selectedPos} 
+              />
+              {/* Bản đồ Admin: Khi kéo Marker sẽ cập nhật selectedPos */}
               <MapSection 
                 userRole="admin" 
                 userScope={userScope} 
-                onLocationChange={setSelectedPos} // Nhận tọa độ khi kéo marker
+                onPosChange={setSelectedPos} 
               />
             </main>
-          ) : <FormAuth setIsLoggedIn={setIsLoggedIn} setUserRole={setUserRole} setUserScope={setUserScope} />
+          ) : (
+            <Navigate to="/login" />
+          )
         } />
       </Routes>
     </>
@@ -37,6 +71,7 @@ const AppContent = ({ isLoggedIn, setIsLoggedIn, userRole, setUserRole, userScop
 };
 
 export default function App() {
+  // Các State quản lý trạng thái đăng nhập và phân quyền
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState('viewer');
   const [userScope, setUserScope] = useState('');
@@ -44,9 +79,12 @@ export default function App() {
   return (
     <Router>
       <AppContent 
-        isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} 
-        userRole={userRole} setUserRole={setUserRole}
-        userScope={userScope} setUserScope={setUserScope}
+        isLoggedIn={isLoggedIn} 
+        setIsLoggedIn={setIsLoggedIn} 
+        userRole={userRole} 
+        setUserRole={setUserRole}
+        userScope={userScope} 
+        setUserScope={setUserScope}
       />
     </Router>
   );
