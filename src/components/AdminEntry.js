@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Row, Col } from 'react-bootstrap';
 import { FaEdit, FaMapMarkerAlt } from 'react-icons/fa';
-import { normalizeInput } from '../utils/formatters';
+import { normalizeInput } from '../utils/formatter';
 import SlideUp from './SlideUp';
 import '../stylesheet/AdminEntry.css';
 
