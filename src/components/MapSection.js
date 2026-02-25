@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Container, Row, Col, Button, Badge } from 'react-bootstrap';
 import { MapContainer, TileLayer, Marker, Popup, LayersControl } from 'react-leaflet';
 import L from 'leaflet';
+import 'leaflet/dist/leaflet.css'; // THÊM DÒNG NÀY VÀO
 import { supabase } from '../utils/supabaseClient';
 import { getGoogleMapsUrl } from '../utils/formatter';
 import SlideUp from './SlideUp';

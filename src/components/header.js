@@ -14,7 +14,7 @@ const Header = ({ isLoggedIn, userRole, userScope }) => {
     <Navbar collapseOnSelect expand="lg" sticky="top" className="service-bg navbar shadow-sm py-3">
       <Container>
         <Navbar.Brand onClick={() => navigate('/')} style={{ cursor: 'pointer' }} className="brand d-flex align-items-center fw-bold text-white">
-          <img src="/logo512.png" alt="Logo" height="40" className="me-2" />
+          <img src="/logo512.png" alt="Logo" height="60" className="me-2" />
           <div className="d-flex flex-column">
             <span>TÌNH NGUYỆN SỐ</span>
             {isLoggedIn && <small className="opacity-75" style={{fontSize: '10px'}}>ĐƠN VỊ: {userScope}</small>}
