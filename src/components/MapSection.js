@@ -6,7 +6,7 @@ import 'leaflet/dist/leaflet.css';
 import SlideUp from './SlideUp';
 import '../stylesheet/MapSection.css';
 import { supabase } from '../utils/supabaseClient'; // Dùng để fetch dữ liệu thực
-import { getGoogleMapsUrl } from '../utils/formatters'; // Hàm dẫn đường
+import { getGoogleMapsUrl } from '../utils/formatter'; // Hàm dẫn đường
 
 // Fix lỗi icon mặc định của Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
