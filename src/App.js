@@ -3,32 +3,31 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import Header from './components/header';
 import Home from './components/Home';
 import AdminEntry from './components/AdminEntry';
-import Map from './components/MapSection';
+import MapSection from './components/MapSection';
 import FormAuth from './components/FormAuth';
-import './App.css';
 
 const AppContent = ({ isLoggedIn, setIsLoggedIn, userRole, setUserRole, userScope, setUserScope }) => {
   const location = useLocation();
   const isLoginPage = location.pathname === '/login';
+  const [selectedPos, setSelectedPos] = useState(null); // Tọa độ từ bản đồ
 
   return (
     <>
-      {/* Ẩn Navbar hoàn toàn khi ở trang Login theo yêu cầu của Nhân */}
-      {!isLoginPage && <Header isLoggedIn={isLoggedIn} userRole={userRole} />}
+      {!isLoginPage && <Header isLoggedIn={isLoggedIn} userRole={userRole} userScope={userScope} />}
       <Routes>
-        <Route path="/" element={<main><Home /><Map userRole="viewer" /></main>} />
+        <Route path="/" element={<main><Home /><MapSection userRole="viewer" /></main>} />
         <Route path="/login" element={
-          <FormAuth 
-            setIsLoggedIn={setIsLoggedIn} 
-            setUserRole={setUserRole} 
-            setUserScope={setUserScope} 
-          />
+          <FormAuth setIsLoggedIn={setIsLoggedIn} setUserRole={setUserRole} setUserScope={setUserScope} />
         } />
         <Route path="/admin" element={
           isLoggedIn ? (
             <main>
-              <AdminEntry userScope={userScope} />
-              <Map userRole="admin" userScope={userScope} />
+              <AdminEntry userScope={userScope} selectedPos={selectedPos} />
+              <MapSection 
+                userRole="admin" 
+                userScope={userScope} 
+                onLocationChange={setSelectedPos} // Nhận tọa độ khi kéo marker
+              />
             </main>
           ) : <FormAuth setIsLoggedIn={setIsLoggedIn} setUserRole={setUserRole} setUserScope={setUserScope} />
         } />
@@ -37,10 +36,10 @@ const AppContent = ({ isLoggedIn, setIsLoggedIn, userRole, setUserRole, userScop
   );
 };
 
-function App() {
+export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState('viewer');
-  const [userScope, setUserScope] = useState(''); // Lưu scope toàn quốc
+  const [userScope, setUserScope] = useState('');
 
   return (
     <Router>
@@ -52,5 +51,3 @@ function App() {
     </Router>
   );
 }
-
-export default App;

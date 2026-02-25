@@ -1,117 +1,74 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Button, Badge } from 'react-bootstrap';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import SlideUp from './SlideUp';
-import '../stylesheet/MapSection.css';
-import { supabase } from '../utils/supabaseClient'; // Dùng để fetch dữ liệu thực
-import { getGoogleMapsUrl } from '../utils/formatter'; // Hàm dẫn đường
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, LayersControl } from 'react-leaflet';
+import L from 'leaflet'; // SỬ DỤNG L ĐỂ FIX WARNING
+import { supabase } from '../utils/supabaseClient';
 
-// Fix lỗi icon mặc định của Leaflet
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-});
+const { BaseLayer } = LayersControl;
 
-const MapSection = ({ userRole = 'viewer', userScope = '' }) => {
-  const [filter, setFilter] = useState('all');
+const MapSection = ({ userRole, userScope, onLocationChange }) => {
   const [locations, setLocations] = useState([]);
-  const position = [10.893, 106.588]; // Tọa độ trung tâm mặc định
+  const markerRef = useRef(null);
 
-  // Lấy dữ liệu thực từ Supabase và lọc theo Ấp/Xã
+  // Fix Icon mặc định bằng L để linter không báo unused-vars
+  const customIcon = new L.Icon({
+    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41]
+  });
+
   useEffect(() => {
-    const fetchLocations = async () => {
-      let query = supabase.from('locations').select('*');
-      
-      // Bảo mật: Nếu là Admin, chỉ lấy dữ liệu thuộc scope của mình
-      if (userRole !== 'viewer' && userScope) {
-        query = query.like('scope_path', `${userScope}%`);
-      }
-
-      const { data, error } = await query;
-      if (!error) setLocations(data);
+    const fetchLocs = async () => {
+      let q = supabase.from('locations').select('*');
+      if (userRole === 'admin' && userScope) q = q.like('scope_path', `${userScope}%`);
+      const { data } = await q;
+      if (data) setLocations(data);
     };
-
-    fetchLocations();
+    fetchLocs();
   }, [userRole, userScope]);
 
-  const categories = [
-    { id: 'all', label: 'Tất cả', color: 'secondary' },
-    { id: 'poor', label: 'Hộ nghèo', color: 'danger' },
-    { id: 'elderly', label: 'Neo đơn', color: 'warning' },
-    { id: 'waste', label: 'Môi trường', color: 'primary' },
-    { id: 'road', label: 'Hạ tầng', color: 'dark' },
-  ];
-
-  const filteredData = filter === 'all' ? locations : locations.filter(item => item.type === filter);
+  // Xử lý kéo thả để lấy tọa độ
+  const eventHandlers = useMemo(() => ({
+    dragend() {
+      const marker = markerRef.current;
+      if (marker != null && onLocationChange) {
+        onLocationChange(marker.getLatLng());
+      }
+    },
+  }), [onLocationChange]);
 
   return (
-    <Container id="map-section" fluid className="map-section-container bg-white">
-      <SlideUp>
-        <div className="text-center mb-4">
-          <h2 className="map-title">HỆ THỐNG BẢN ĐỒ SỐ</h2>
-          <p className="map-subtitle">Đơn vị đang xem: {userScope || 'Toàn quốc'}</p>
-        </div>
+    <div className="map-wrapper shadow border rounded-4 overflow-hidden" style={{ height: '600px', position: 'relative' }}>
+      <MapContainer center={[10.893, 106.588]} zoom={16} style={{ height: '100%' }}>
+        <LayersControl position="topright">
+          <BaseLayer checked name="Bản đồ đường bộ">
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          </BaseLayer>
+          {/* CHẾ ĐỘ VỆ TINH GIÚP NHÌN RÕ NÓC NHÀ */}
+          <BaseLayer name="Bản đồ vệ tinh">
+            <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
+          </BaseLayer>
+        </LayersControl>
 
-        {/* Dùng Row & Col cho bộ lọc để hết warning */}
-        <Row className="justify-content-center mb-4 g-2">
-          {categories.map(cat => (
-            <Col xs="auto" key={cat.id}>
-              <Button 
-                variant={filter === cat.id ? cat.color : `outline-${cat.color}`}
-                className="filter-btn fw-bold px-3 rounded-pill"
-                onClick={() => setFilter(cat.id)}
-              >
-                {cat.label}
-              </Button>
-            </Col>
-          ))}
-        </Row>
+        {userRole === 'admin' && (
+          <Marker 
+            draggable={true} 
+            eventHandlers={eventHandlers} 
+            position={[10.893, 106.588]} 
+            ref={markerRef}
+            icon={customIcon}
+          >
+            <Popup>Kéo tôi để chọn vị trí chính xác</Popup>
+          </Marker>
+        )}
 
-        <Row className="justify-content-center">
-          <Col lg={11}>
-            <div className="map-wrapper shadow-lg border rounded-4 overflow-hidden" style={{ height: '600px' }}>
-              <MapContainer center={position} zoom={15} style={{ height: '100%', width: '100%' }}>
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                
-                {filteredData.map(loc => (
-                  <Marker key={loc.id} position={[loc.lat, loc.lng]}>
-                    <Popup>
-                      <div className="p-1">
-                        <h6 className="fw-bold text-primary mb-1">{loc.name}</h6>
-                        {/* Dùng Badge ở đây để hết warning */}
-                        <Badge bg="info" className="mb-2">
-                          {categories.find(c => c.id === loc.type)?.label}
-                        </Badge>
-                        <p className="small mb-1"><strong>Tình trạng:</strong> {loc.status}</p>
-                        
-                        {/* Nút Dẫn đường cho Đoàn viên */}
-                        <Button 
-                          variant="success" 
-                          size="sm" 
-                          className="w-100 mt-2 fw-bold"
-                          onClick={() => window.open(getGoogleMapsUrl(loc.lat, loc.lng), '_blank')}
-                        >
-                        DẪN ĐƯỜNG ĐẾN ĐÂY
-                        </Button>
-
-                        {userRole !== 'viewer' && (
-                          <Button size="sm" variant="outline-primary" className="w-100 mt-2">Cập nhật</Button>
-                        )}
-                      </div>
-                    </Popup>
-                  </Marker>
-                ))}
-              </MapContainer>
-            </div>
-          </Col>
-        </Row>
-      </SlideUp>
-    </Container>
+        {locations.map(loc => (
+          <Marker key={loc.id} position={[loc.lat, loc.lng]} icon={customIcon}>
+            <Popup><h6 className="fw-bold m-0">{loc.name}</h6></Popup>
+          </Marker>
+        ))}
+      </MapContainer>
+    </div>
   );
 };
-
 export default MapSection;
