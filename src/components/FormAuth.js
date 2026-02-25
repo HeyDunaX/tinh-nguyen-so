@@ -1,47 +1,52 @@
-import React from 'react';
-import { Container, Form, Button, Card } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Container, Card, Form, Button } from 'react-bootstrap';
 import { FaShieldAlt, FaArrowLeft } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../utils/supabaseClient';
 import '../stylesheet/FormAuth.css';
 
-const Login = () => {
+const FormAuth = ({ setIsLoggedIn, setUserRole }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (data?.user) {
+      // Lấy profile để biết Role và Scope vùng quản lý
+      const { data: profile } = await supabase.from('profiles').select('*').eq('id', data.user.id).single();
+      setIsLoggedIn(true);
+      setUserRole(profile.role);
+      navigate('/admin');
+    } else {
+      alert("Sai tài khoản: " + error.message);
+    }
+  };
+
   return (
     <div className="login-wrapper">
       <Container className="d-flex flex-column align-items-center justify-content-center min-vh-100">
-        <a href="/" className="text-decoration-none text-muted mb-3 back-home">
+        <Button variant="link" onClick={() => navigate('/')} className="back-home mb-3">
           <FaArrowLeft className="me-2" /> Về trang chủ
-        </a>
-        
+        </Button>
         <Card className="login-box shadow-lg border-0">
-          {/* Phần đầu xanh đặc trưng của antoanmualu */}
           <div className="login-header-blue text-white text-center p-4">
-            <FaShieldAlt className="mb-2" size={32} />
-            <h4 className="fw-bold mb-0">Đăng nhập</h4>
-            <p className="small mb-0 opacity-75">Hệ thống quản lý Bản đồ số Ấp 40</p>
+            <FaShieldAlt size={35} className="mb-2" />
+            <h4 className="fw-bold mb-0">Hệ thống Quản lý</h4>
+            <p className="small mb-0 opacity-75">Bản đồ số Tình nguyện toàn quốc</p>
           </div>
-
-          <Card.Body className="p-4 p-md-5">
-            <Form>
+          <Card.Body className="p-5">
+            <Form onSubmit={handleLogin}>
               <Form.Group className="mb-4">
-                <Form.Label className="small fw-bold text-secondary">Email hoặc Username</Form.Label>
-                <Form.Control type="text" placeholder="admin@tinhnguyen.vn hoặc admin" className="custom-input" />
+                <Form.Label className="small fw-bold text-secondary">Tên đăng nhập / Email</Form.Label>
+                <Form.Control type="text" className="custom-input" onChange={(e)=>setEmail(e.target.value)} required />
               </Form.Group>
-
               <Form.Group className="mb-4">
                 <Form.Label className="small fw-bold text-secondary">Mật khẩu</Form.Label>
-                <Form.Control type="password" placeholder="Nhập mật khẩu" className="custom-input" />
+                <Form.Control type="password" className="custom-input" onChange={(e)=>setPassword(e.target.value)} required />
               </Form.Group>
-
-              <div className="d-grid gap-2">
-                <Button variant="primary" className="login-btn-blue py-2 fw-bold">
-                  Đăng nhập
-                </Button>
-              </div>
-
-              <div className="text-center mt-4">
-                <p className="text-muted extra-small">
-                  Liên hệ quản trị viên để được cấp tài khoản
-                </p>
-              </div>
+              <Button type="submit" variant="primary" className="w-100 login-btn-blue py-2 fw-bold">ĐĂNG NHẬP</Button>
             </Form>
           </Card.Body>
         </Card>
@@ -50,4 +55,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default FormAuth;
